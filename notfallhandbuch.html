@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Betriebshandbuch</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;background:#0f0f0f;color:#e0d8cc;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px;}
+button{font-family:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;}
+input,select,textarea{-webkit-tap-highlight-color:transparent;font-family:inherit;}
+#app{display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+#topbar{background:#1a1a1a;border-bottom:2px solid #e8a020;display:flex;align-items:center;padding:0 14px;height:54px;gap:8px;flex-shrink:0;}
+#topbar h1{color:#e8a020;font-size:19px;font-weight:900;letter-spacing:2px;flex:1;white-space:nowrap;}
+#body{display:flex;flex:1;overflow:hidden;}
+#sidebar{width:195px;background:#141414;border-right:1px solid #252525;overflow-y:auto;flex-shrink:0;}
+#content{flex:1;overflow-y:auto;padding:18px;}
+.ng{padding:10px 0 2px;}
+.ngl{font-size:10px;color:#444;letter-spacing:2px;text-transform:uppercase;padding:0 14px 5px;display:block;}
+.nb{display:flex;align-items:center;gap:8px;width:100%;background:none;border:none;border-left:3px solid transparent;padding:10px 14px;text-align:left;color:#888;font-size:13px;min-height:42px;}
+.nb:active,.nb.on{color:#e8a020;border-left-color:#e8a020;background:rgba(232,160,32,.09);}
+.ni{width:17px;text-align:center;font-size:14px;flex-shrink:0;}
+.tb{background:none;border:1px solid #383838;color:#bbb;padding:6px 11px;font-size:11px;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;}
+.tb.g{background:#e8a020;border-color:#e8a020;color:#000;font-weight:700;}
+.tb:active{opacity:.65;}
+.ph{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid #222;gap:10px;}
+.pt{font-size:26px;font-weight:900;letter-spacing:2px;line-height:1;}
+.pd{color:#444;font-size:12px;margin-top:3px;}
+.ntc{background:rgba(232,160,32,.08);border-left:3px solid #e8a020;padding:9px 13px;font-size:12px;color:#c8a060;margin-bottom:14px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:11px;}
+.card{background:#1a1a1a;border:1px solid #252525;padding:14px;}
+.chd{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:9px;gap:6px;}
+.ct{font-size:13px;font-weight:700;color:#e8a020;word-break:break-word;}
+.ca{display:flex;gap:2px;flex-shrink:0;}
+.ib{background:none;border:none;color:#444;font-size:15px;padding:3px 7px;min-width:34px;min-height:38px;}
+.ib:active{color:#e8a020;}
+.ib.d:active{color:#c0392b;}
+.cf{display:flex;gap:7px;margin-bottom:3px;font-size:12px;line-height:1.35;}
+.cl{color:#444;min-width:85px;flex-shrink:0;}
+.cv{color:#bbb;word-break:break-word;}
+.badge{display:inline-block;font-size:10px;padding:1px 6px;border:1px solid;letter-spacing:.5px;text-transform:uppercase;white-space:nowrap;}
+.bg{border-color:#27ae60;color:#27ae60;}.bo{border-color:#e8a020;color:#e8a020;}.br{border-color:#c0392b;color:#c0392b;}.bx{border-color:#555;color:#555;}
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(105px,1fr));gap:9px;margin-bottom:22px;}
+.sc{background:#1a1a1a;border:1px solid #252525;padding:13px;text-align:center;}
+.sn{font-size:34px;font-weight:900;color:#e8a020;line-height:1;}
+.sl{font-size:9px;color:#444;letter-spacing:1px;text-transform:uppercase;margin-top:3px;}
+.sbar{position:relative;margin-bottom:12px;}
+.sbar input{width:100%;background:#1a1a1a;border:1px solid #333;color:#e0d8cc;padding:8px 11px 8px 32px;font-size:13px;outline:none;}
+.sbar input:focus{border-color:#e8a020;}
+.sico{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#444;pointer-events:none;font-size:13px;}
+.empty{text-align:center;padding:36px;color:#333;font-size:13px;border:1px dashed #222;}
+.ei{font-size:26px;margin-bottom:8px;}
+#ov{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:999;align-items:center;justify-content:center;padding:14px;}
+#ov.show{display:flex;}
+#ov{display:none;}
+#mod{background:#1a1a1a;border:1px solid #e8a020;width:100%;max-width:540px;max-height:88vh;overflow-y:auto;padding:22px;}
+.mt{font-size:20px;font-weight:900;letter-spacing:2px;color:#e8a020;margin-bottom:16px;}
+.fr{margin-bottom:11px;}
+.fl{display:block;font-size:10px;color:#444;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;}
+input[type=text],input[type=date],input[type=email],textarea,select{width:100%;background:#111;border:1px solid #2a2a2a;color:#e0d8cc;font-size:13px;padding:8px 10px;outline:none;-webkit-appearance:none;border-radius:0;}
+input:focus,textarea:focus,select:focus{border-color:#e8a020;}
+textarea{resize:vertical;min-height:60px;}
+select option{background:#111;}
+.ma{display:flex;gap:7px;justify-content:flex-end;margin-top:16px;padding-top:12px;border-top:1px solid #222;}
+.sf{background:#1a1a1a;border:1px solid #252525;padding:18px;max-width:460px;}
+.dz{border:1px solid #c0392b;padding:14px;margin-top:22px;max-width:460px;}
+.dzt{font-size:10px;color:#c0392b;letter-spacing:2px;text-transform:uppercase;margin-bottom:7px;}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-thumb{background:#2a2a2a;}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="topbar">
+    <h1>BETRIEBSHANDBUCH</h1>
+    <button class="tb" id="btnExport">&#128190; Export</button>
+    <button class="tb" id="btnImport">&#128194; Import</button>
+    <input type="file" id="ifile" style="display:none" accept=".json">
+    <button class="tb g" id="btnNeu">+ Neu</button>
+  </div>
+  <div id="body">
+    <div id="sidebar">
+      <div class="ng"><span class="ngl">Übersicht</span>
+        <button class="nb on" data-p="dashboard"><span class="ni">&#128202;</span>Dashboard</button>
+      </div>
+      <div class="ng"><span class="ngl">Betrieb</span>
+        <button class="nb" data-p="fahrzeuge"><span class="ni">&#128663;</span>Fahrzeuge</button>
+        <button class="nb" data-p="auftraege"><span class="ni">&#128295;</span>Auftr&auml;ge</button>
+        <button class="nb" data-p="inventar"><span class="ni">&#128447;</span>Inventar</button>
+        <button class="nb" data-p="kunden"><span class="ni">&#128101;</span>Kunden</button>
+        <button class="nb" data-p="lieferanten"><span class="ni">&#128230;</span>Lieferanten</button>
+      </div>
+      <div class="ng"><span class="ngl">Finanzen</span>
+        <button class="nb" data-p="finanzen"><span class="ni">&#128182;</span>Konten</button>
+        <button class="nb" data-p="vertraege"><span class="ni">&#128203;</span>Vertr&auml;ge</button>
+        <button class="nb" data-p="versicherungen"><span class="ni">&#128737;</span>Versicherungen</button>
+      </div>
+      <div class="ng"><span class="ngl">Wichtig</span>
+        <button class="nb" data-p="zugaenge"><span class="ni">&#128273;</span>Zug&auml;nge</button>
+        <button class="nb" data-p="kontakte"><span class="ni">&#128222;</span>Notfallkontakte</button>
+        <button class="nb" data-p="rechtliches"><span class="ni">&#9878;</span>Rechtliches</button>
+        <button class="nb" data-p="notizen"><span class="ni">&#128221;</span>Notizen</button>
+      </div>
+      <div class="ng"><span class="ngl">System</span>
+        <button class="nb" data-p="einstellungen"><span class="ni">&#9881;</span>Einstellungen</button>
+      </div>
+    </div>
+    <div id="content"><div style="padding:20px;color:#444;">Wird geladen...</div></div>
+  </div>
+</div>
+<div id="ov">
+  <div id="mod">
+    <div class="mt" id="mtitle">Eintrag</div>
+    <div id="mbody"></div>
+    <div class="ma">
+      <button class="tb" id="btnCancel">Abbrechen</button>
+      <button class="tb g" id="btnSave">Speichern</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+'use strict';
+
+// ── STORAGE ──────────────────────────────────────────────────────────────────
+var lsOk=false,_mem=null;
+try{localStorage.setItem('_t','1');localStorage.removeItem('_t');lsOk=true;}catch(e){}
+function lsGet(k){if(lsOk){try{return localStorage.getItem(k);}catch(e){}}return _mem;}
+function lsSet(k,v){if(lsOk){try{localStorage.setItem(k,v);}catch(e){}}_mem=v;}
+function lsDel(k){if(lsOk){try{localStorage.removeItem(k);}catch(e){}}_mem=null;}
+
+// ── DB ────────────────────────────────────────────────────────────────────────
+var db={
+  settings:{firma:'',inhaber:'',adresse:'',telefon:'',email:'',anweisung:''},
+  fahrzeuge:[],auftraege:[],inventar:[],kunden:[],lieferanten:[],
+  finanzen:[],vertraege:[],versicherungen:[],zugaenge:[],
+  kontakte:[],rechtliches:[],notizen:[]
+};
+function dbLoad(){try{var s=lsGet('bh');if(s){var p=JSON.parse(s);for(var k in p){if(p.hasOwnProperty(k))db[k]=p[k];}}if(!db.inventar)db.inventar=[];}catch(e){}}
+function dbSave(){try{lsSet('bh',JSON.stringify(db));}catch(e){}}
+
+var curSec=null,editId=null,curPage='dashboard';
+
+// ── FORMS ─────────────────────────────────────────────────────────────────────
+var F={
+  fahrzeuge:{t:'Fahrzeug',f:[
+    {k:'bezeichnung',l:'Bezeichnung / Modell',r:1},
+    {k:'marke',l:'Marke'},{k:'baujahr',l:'Baujahr'},
+    {k:'kennzeichen',l:'Kennzeichen'},{k:'vin',l:'Fahrgestellnummer (VIN)'},
+    {k:'eigentuemer',l:'Eigentuemer',tp:'sel',o:['Eigenes Fahrzeug','Kundenfahrzeug']},
+    {k:'kunde',l:'Kunde (falls Kundenfahrzeug)'},
+    {k:'standort',l:'Standort in der Werkstatt'},
+    {k:'zustand',l:'Restaurationsstand',tp:'ta'},
+    {k:'schaetzwert',l:'Geschaetzter Wert (EUR)'},
+    {k:'besonderheiten',l:'Besonderheiten / Hinweise',tp:'ta'}
+  ]},
+  auftraege:{t:'Auftrag',f:[
+    {k:'titel',l:'Auftragsbezeichnung',r:1},
+    {k:'fahrzeug',l:'Fahrzeug'},{k:'kunde',l:'Kunde'},
+    {k:'status',l:'Status',tp:'sel',o:['Offen','In Arbeit','Pausiert','Abgeschlossen','Storniert']},
+    {k:'beginn',l:'Beginn',tp:'date'},{k:'abgabedatum',l:'Geplante Abgabe',tp:'date'},
+    {k:'vereinbarterPreis',l:'Vereinbarter Preis (EUR)'},{k:'bereitsGezahlt',l:'Bereits gezahlt (EUR)'},
+    {k:'beschreibung',l:'Was wurde vereinbart',tp:'ta'},
+    {k:'standArbeit',l:'Aktueller Stand der Arbeiten',tp:'ta'},
+    {k:'naechsteSchritte',l:'Naechste Schritte',tp:'ta'},
+    {k:'materialien',l:'Bestellte / benoеtigte Materialien',tp:'ta'}
+  ]},
+  inventar:{t:'Inventarartikel',f:[
+    {k:'bezeichnung',l:'Bezeichnung',r:1},
+    {k:'kategorie',l:'Kategorie',tp:'sel',o:['Maschine / Geraet','Handwerkzeug','Elektrowerkzeug','Hebebuehne / Lift','Messgeraet','Schweisstechnik','Lackiertechnik','Ersatzteil / Lager','Verbrauchsmaterial','Fahrzeugzubehoer','Buero / EDV','Sonstiges']},
+    {k:'hersteller',l:'Hersteller / Marke'},{k:'modell',l:'Modell / Typ'},
+    {k:'seriennummer',l:'Seriennummer / ID'},{k:'standort',l:'Standort / Lagerplatz'},
+    {k:'zustand',l:'Zustand',tp:'sel',o:['Neuwertig','Gut','In Ordnung','Wartungsbedarf','Defekt']},
+    {k:'kaufdatum',l:'Kaufdatum',tp:'date'},{k:'kaufpreis',l:'Kaufpreis (EUR)'},
+    {k:'aktuellerwert',l:'Aktueller Schaetzwert (EUR)'},{k:'menge',l:'Menge / Anzahl'},
+    {k:'lieferant',l:'Lieferant / Bezugsquelle'},
+    {k:'garantieBis',l:'Garantie bis',tp:'date'},{k:'wartungsintervall',l:'Wartungsintervall'},
+    {k:'letzteWartung',l:'Letzte Wartung',tp:'date'},{k:'dokumente',l:'Wo liegen Handbuch / Unterlagen?'},
+    {k:'hinweise',l:'Besondere Hinweise',tp:'ta'}
+  ]},
+  kunden:{t:'Kunde',f:[
+    {k:'name',l:'Name / Firma',r:1},{k:'ansprechpartner',l:'Ansprechpartner'},
+    {k:'telefon',l:'Telefon'},{k:'email',l:'E-Mail'},
+    {k:'adresse',l:'Adresse',tp:'ta'},{k:'kundenNummer',l:'Kundennummer'},
+    {k:'beziehung',l:'Art der Beziehung',tp:'ta'},
+    {k:'offeneForderungen',l:'Offene Forderungen (EUR)'}
+  ]},
+  lieferanten:{t:'Lieferant',f:[
+    {k:'name',l:'Firma / Name',r:1},{k:'kontakt',l:'Ansprechpartner'},
+    {k:'telefon',l:'Telefon'},{k:'email',l:'E-Mail'},{k:'website',l:'Website'},
+    {k:'adresse',l:'Adresse',tp:'ta'},{k:'sortiment',l:'Was wird geliefert'},
+    {k:'kundennummer',l:'Kundennummer bei Lieferant'},
+    {k:'konditionen',l:'Konditionen / Rabatte',tp:'ta'},
+    {k:'bewertung',l:'Bewertung',tp:'sel',o:['Sehr gut','Gut','Ok','Problematisch']}
+  ]},
+  finanzen:{t:'Konto / Finanzposten',f:[
+    {k:'bezeichnung',l:'Bezeichnung',r:1},
+    {k:'typ',l:'Typ',tp:'sel',o:['Girokonto','Sparkonto','Kreditkarte','Barkasse','Offene Forderung','Verbindlichkeit','Sonstiges']},
+    {k:'bank',l:'Bank'},{k:'iban',l:'IBAN'},{k:'betrag',l:'Betrag / Kontostand (EUR)'},
+    {k:'bevollmaechtigte',l:'Bevollmaechtigte Personen'},
+    {k:'zugang',l:'Zugang (Filiale, Online...)',tp:'ta'},
+    {k:'hinweis',l:'Hinweise',tp:'ta'}
+  ]},
+  vertraege:{t:'Vertrag',f:[
+    {k:'bezeichnung',l:'Bezeichnung',r:1},{k:'vertragspartner',l:'Vertragspartner'},
+    {k:'typ',l:'Typ',tp:'sel',o:['Mietvertrag','Leasingvertrag','Wartungsvertrag','Abonnement','Liefervertrag','Arbeitsvertrag','Sonstiges']},
+    {k:'kosten',l:'Kosten (EUR / Monat oder Jahr)'},{k:'kuendigungsfrist',l:'Kuendigungsfrist'},
+    {k:'naechsteKuendigung',l:'Naechster Kuendigungstermin',tp:'date'},
+    {k:'vertragsort',l:'Wo liegt der Vertrag?'},
+    {k:'wichtig',l:'Wichtige Klauseln',tp:'ta'}
+  ]},
+  versicherungen:{t:'Versicherung',f:[
+    {k:'bezeichnung',l:'Versicherungsart',r:1},{k:'gesellschaft',l:'Versicherungsgesellschaft'},
+    {k:'polizzenNummer',l:'Polizzennummer'},{k:'telefon',l:'Telefon Versicherung'},
+    {k:'deckung',l:'Was ist gedeckt?',tp:'ta'},{k:'praemie',l:'Praemie (EUR)'},
+    {k:'faelligkeit',l:'Faelligkeit'},{k:'dokumente',l:'Wo liegen die Dokumente?'},
+    {k:'schadenfall',l:'Was tun im Schadensfall?',tp:'ta'}
+  ]},
+  zugaenge:{t:'Zugang / Passwort',f:[
+    {k:'bezeichnung',l:'Dienst / System',r:1},
+    {k:'typ',l:'Typ',tp:'sel',o:['E-Mail','Banking','Behoerdenportal','Software','Website','Geraet / PIN','Safe / Schloss','Sonstiges']},
+    {k:'url',l:'URL / Adresse'},{k:'benutzername',l:'Benutzername / E-Mail'},
+    {k:'passwort',l:'Passwort / PIN / Code'},{k:'zweck',l:'Wofuer wird das gebraucht?'},
+    {k:'hinweis',l:'Hinweise (2FA, etc.)',tp:'ta'}
+  ]},
+  kontakte:{t:'Notfallkontakt',f:[
+    {k:'name',l:'Name',r:1},
+    {k:'rolle',l:'Rolle',tp:'sel',o:['Steuerberater','Anwalt','Notar','Familienmitglied','Geschaeftspartner','Mitarbeiter','Behoerde','Sonstiges']},
+    {k:'telefon',l:'Telefon (mobil)'},{k:'telefon2',l:'Telefon (geschaeftlich)'},{k:'email',l:'E-Mail'},
+    {k:'adresse',l:'Adresse / Kanzlei',tp:'ta'},
+    {k:'prioritaet',l:'Prioritaet',tp:'sel',o:['Zuerst kontaktieren','Wichtig','Normal']},
+    {k:'zustaendig',l:'Zustaendig fuer',tp:'ta'},{k:'unterlagen',l:'Benoetigte Unterlagen',tp:'ta'}
+  ]},
+  rechtliches:{t:'Rechtlicher Eintrag',f:[
+    {k:'bezeichnung',l:'Bezeichnung',r:1},
+    {k:'typ',l:'Typ',tp:'sel',o:['Gewerbeschein','Steuernummer','Umsatzsteuer-ID','Handelsregistereintrag','Berufserlaubnis','Sonstiges']},
+    {k:'nummer',l:'Nummer / ID'},{k:'behoerde',l:'Ausstellende Behoerde'},
+    {k:'ausstelldatum',l:'Ausstelldatum',tp:'date'},{k:'gueltigBis',l:'Gueltig bis',tp:'date'},
+    {k:'dokumentOrt',l:'Wo liegt das Dokument?'},{k:'hinweis',l:'Hinweise',tp:'ta'}
+  ]},
+  notizen:{t:'Notiz',f:[
+    {k:'titel',l:'Titel',r:1},
+    {k:'kategorie',l:'Kategorie',tp:'sel',o:['Wichtiger Hinweis','Technisches Wissen','Ablauf / Prozess','Standorte','Kombinationen / Codes','Anweisung an Hinterbliebene','Sonstiges']},
+    {k:'prioritaet',l:'Prioritaet',tp:'sel',o:['Kritisch','Wichtig','Normal']},
+    {k:'inhalt',l:'Inhalt',tp:'ta',r:1}
+  ]}
+};
+
+// ── HELPERS ───────────────────────────────────────────────────────────────────
+function h(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function cardTitle(sec,item){
+  var m={fahrzeuge:item.bezeichnung||item.marke,auftraege:item.titel,inventar:item.bezeichnung,kunden:item.name,lieferanten:item.name,finanzen:item.bezeichnung,vertraege:item.bezeichnung,versicherungen:item.bezeichnung,zugaenge:item.bezeichnung,kontakte:item.name,rechtliches:item.bezeichnung,notizen:item.titel};
+  return m[sec]||'Eintrag';
+}
+
+function badge(sec,item){
+  var cls,txt;
+  if(sec==='auftraege'&&item.status){var c={Offen:'bx','In Arbeit':'bo',Abgeschlossen:'bg',Pausiert:'br',Storniert:'br'};cls=c[item.status]||'bx';txt=item.status;}
+  else if(sec==='inventar'&&item.zustand){var c={Neuwertig:'bg',Gut:'bg','In Ordnung':'bx',Wartungsbedarf:'bo',Defekt:'br'};cls=c[item.zustand]||'bx';txt=item.zustand;}
+  else if(sec==='kontakte'&&item.prioritaet){var c={'Zuerst kontaktieren':'br',Wichtig:'bo',Normal:'bx'};cls=c[item.prioritaet]||'bx';txt=item.prioritaet;}
+  else if(sec==='notizen'&&item.prioritaet){var c={Kritisch:'br',Wichtig:'bo',Normal:'bx'};cls=c[item.prioritaet]||'bx';txt=item.prioritaet;}
+  if(!txt)return '';
+  return '<span class="badge '+cls+'">'+h(txt)+'</span>';
+}
+
+function cardFields(sec,item){
+  var m={
+    fahrzeuge:[['Eigentuemer',item.eigentuemer],['Kennzeichen',item.kennzeichen],['Baujahr',item.baujahr],['Standort',item.standort],['Zustand',item.zustand],['Wert',item.schaetzwert?item.schaetzwert+' EUR':'']],
+    auftraege:[['Fahrzeug',item.fahrzeug],['Kunde',item.kunde],['Preis',item.vereinbarterPreis?item.vereinbarterPreis+' EUR':''],['Abgabe',item.abgabedatum],['Stand',item.standArbeit]],
+    inventar:[['Kategorie',item.kategorie],['Hersteller',item.hersteller],['Seriennr.',item.seriennummer],['Standort',item.standort],['Menge',item.menge],['Kaufpreis',item.kaufpreis?item.kaufpreis+' EUR':''],['Garantie bis',item.garantieBis],['Letzte Wartung',item.letzteWartung]],
+    kunden:[['Telefon',item.telefon],['E-Mail',item.email],['Adresse',item.adresse],['Forderungen',item.offeneForderungen?item.offeneForderungen+' EUR':'']],
+    lieferanten:[['Telefon',item.telefon],['E-Mail',item.email],['Sortiment',item.sortiment],['Kundennr.',item.kundennummer]],
+    finanzen:[['Typ',item.typ],['Bank',item.bank],['IBAN',item.iban],['Betrag',item.betrag?item.betrag+' EUR':'']],
+    vertraege:[['Partner',item.vertragspartner],['Typ',item.typ],['Kosten',item.kosten],['Kuendigung',item.naechsteKuendigung]],
+    versicherungen:[['Gesellschaft',item.gesellschaft],['Polizze',item.polizzenNummer],['Praemie',item.praemie],['Dokumente',item.dokumente]],
+    zugaenge:[['Typ',item.typ],['URL',item.url],['Benutzer',item.benutzername],['Passwort',item.passwort]],
+    kontakte:[['Rolle',item.rolle],['Telefon',item.telefon],['E-Mail',item.email]],
+    rechtliches:[['Typ',item.typ],['Nummer',item.nummer],['Behoerde',item.behoerde],['Gueltig bis',item.gueltigBis]],
+    notizen:[['Kategorie',item.kategorie],['Inhalt',item.inhalt]]
+  };
+  return (m[sec]||[]).filter(function(f){return !!f[1];});
+}
+
+// ── RENDER CARDS ──────────────────────────────────────────────────────────────
+function renderCards(sec,search){
+  var items=db[sec]||[];
+  if(search){var s=search.toLowerCase();items=items.filter(function(i){return JSON.stringify(i).toLowerCase().indexOf(s)>=0;});}
+  if(!items.length){
+    var ft=F[sec]?F[sec].t:'Eintrag';
+    return '<div class="empty"><div class="ei">&#128194;</div>Noch keine Eintraege.<br>Klicke auf &quot;+ '+h(ft)+'&quot; um zu beginnen.</div>';
+  }
+  var out='<div class="grid">';
+  for(var i=0;i<items.length;i++){
+    var item=items[i];
+    var t=h(cardTitle(sec,item));
+    var b=badge(sec,item);
+    var fs=cardFields(sec,item);
+    var fhtml='';
+    for(var j=0;j<fs.length;j++){fhtml+='<div class="cf"><span class="cl">'+h(fs[j][0])+'</span><span class="cv">'+h(fs[j][1])+'</span></div>';}
+    out+='<div class="card"><div class="chd"><div class="ct">'+t+'</div><div class="ca">'+b;
+    out+='<button class="ib" data-action="edit" data-sec="'+sec+'" data-id="'+item.id+'">&#9998;</button>';
+    out+='<button class="ib d" data-action="del" data-sec="'+sec+'" data-id="'+item.id+'">&#10005;</button>';
+    out+='</div></div>'+fhtml+'</div>';
+  }
+  out+='</div>';
+  return out;
+}
+
+// ── PAGE TITLES/DESCS ─────────────────────────────────────────────────────────
+var PT={dashboard:'UEBERSICHT',fahrzeuge:'FAHRZEUGE',auftraege:'AUFTRAEGE',inventar:'INVENTAR',kunden:'KUNDEN',lieferanten:'LIEFERANTEN',finanzen:'KONTEN & FINANZEN',vertraege:'VERTRAEGE',versicherungen:'VERSICHERUNGEN',zugaenge:'ZUGAENGE',kontakte:'NOTFALLKONTAKTE',rechtliches:'RECHTLICHES',notizen:'NOTIZEN',einstellungen:'EINSTELLUNGEN'};
+var PD={dashboard:'Aktueller Stand aller Bereiche',fahrzeuge:'Eigene & Kundenfahrzeuge',auftraege:'Laufende & abgeschlossene Restaurationen',inventar:'Maschinen, Werkzeug, Ersatzteile & Lagerbestand',kunden:'Kundenstamm & Kontaktdaten',lieferanten:'Teilelieferanten & Dienstleister',finanzen:'Bankkonten, Forderungen & Verbindlichkeiten',vertraege:'Laufende Vertraege & Abonnements',versicherungen:'Alle Versicherungspolicen',zugaenge:'Passwoerter & Zugangsdaten',kontakte:'Steuerberater, Anwalt, Familie',rechtliches:'Gewerbedaten, Steuern, Behoerden',notizen:'Wissen & Anweisungen fuer Hinterbliebene',einstellungen:'Firmendaten & Datenverwaltung'};
+
+// ── GO PAGE ───────────────────────────────────────────────────────────────────
+function goPage(name){
+  curPage=name;
+  // update nav
+  var btns=document.querySelectorAll('.nb');
+  for(var i=0;i<btns.length;i++){
+    if(btns[i].getAttribute('data-p')===name){btns[i].classList.add('on');}
+    else{btns[i].classList.remove('on');}
+  }
+  var c=document.getElementById('content');
+  var cfg=F[name];
+  var addBtn=cfg?'<button class="tb g" data-action="add" data-sec="'+name+'">+ '+h(cfg.t)+'</button>':'';
+  var ph='<div class="ph"><div><div class="pt">'+h(PT[name]||name)+'</div><div class="pd">'+h(PD[name]||'')+'</div></div>'+addBtn+'</div>';
+
+  if(name==='dashboard'){
+    var keys=['fahrzeuge','auftraege','inventar','kunden','lieferanten','vertraege','versicherungen','zugaenge'];
+    var icons={'fahrzeuge':'&#128663;','auftraege':'&#128295;','inventar':'&#128447;','kunden':'&#128101;','lieferanten':'&#128230;','vertraege':'&#128203;','versicherungen':'&#128737;','zugaenge':'&#128273;'};
+    var labels={'fahrzeuge':'Fahrzeuge','auftraege':'Auftraege','inventar':'Inventar','kunden':'Kunden','lieferanten':'Lieferanten','vertraege':'Vertraege','versicherungen':'Versicherungen','zugaenge':'Zugaenge'};
+    var statsHtml='<div class="stats">';
+    for(var i=0;i<keys.length;i++){var k=keys[i];statsHtml+='<div class="sc"><div class="sn">'+(db[k]||[]).length+'</div><div class="sl">'+icons[k]+' '+labels[k]+'</div></div>';}
+    statsHtml+='</div>';
+    var offene=(db.auftraege||[]).filter(function(a){return a.status==='In Arbeit'||a.status==='Offen';});
+    var oHtml='';
+    if(offene.length){
+      oHtml='<div class="grid">';
+      for(var i=0;i<offene.length;i++){
+        var a=offene[i];
+        oHtml+='<div class="card"><div class="chd"><div class="ct">'+h(a.titel)+'</div>'+badge('auftraege',a)+'</div>';
+        if(a.fahrzeug)oHtml+='<div class="cf"><span class="cl">Fahrzeug</span><span class="cv">'+h(a.fahrzeug)+'</span></div>';
+        if(a.kunde)oHtml+='<div class="cf"><span class="cl">Kunde</span><span class="cv">'+h(a.kunde)+'</span></div>';
+        if(a.standArbeit)oHtml+='<div class="cf"><span class="cl">Stand</span><span class="cv">'+h(a.standArbeit)+'</span></div>';
+        oHtml+='</div>';
+      }
+      oHtml+='</div>';
+    } else {
+      oHtml='<div class="empty"><div class="ei">&#9989;</div>Keine offenen Auftraege</div>';
+    }
+    c.innerHTML=ph+'<div class="ntc">&#9888;&#65039; Vertraulich. Regelmaessig exportieren und sicher aufbewahren.</div>'+statsHtml+'<div style="font-size:10px;color:#444;letter-spacing:2px;text-transform:uppercase;margin-bottom:9px;margin-top:4px;">OFFENE AUFTRAEGE</div>'+oHtml;
+    return;
+  }
+
+  if(name==='einstellungen'){
+    var s=db.settings||{};
+    c.innerHTML=ph+'<div class="sf"><div style="font-size:11px;color:#e8a020;letter-spacing:1px;margin-bottom:12px;">FIRMENDATEN</div>'
+      +'<div class="fr"><label class="fl">Firmenname</label><input type="text" id="s0" value="'+h(s.firma||'')+'" oninput="saveSetting()"></div>'
+      +'<div class="fr"><label class="fl">Inhaber</label><input type="text" id="s1" value="'+h(s.inhaber||'')+'" oninput="saveSetting()"></div>'
+      +'<div class="fr"><label class="fl">Adresse</label><textarea id="s2" oninput="saveSetting()">'+h(s.adresse||'')+'</textarea></div>'
+      +'<div class="fr"><label class="fl">Telefon</label><input type="text" id="s3" value="'+h(s.telefon||'')+'" oninput="saveSetting()"></div>'
+      +'<div class="fr"><label class="fl">E-Mail</label><input type="text" id="s4" value="'+h(s.email||'')+'" oninput="saveSetting()"></div>'
+      +'<div class="fr"><label class="fl">Anweisungen an Hinterbliebene</label><textarea id="s5" rows="5" oninput="saveSetting()">'+h(s.anweisung||'')+'</textarea></div>'
+      +'</div><div class="dz"><div class="dzt">&#9888; Gefahrenzone</div>'
+      +'<p style="color:#444;font-size:12px;margin-bottom:9px;">Nicht rueckgaengig machbar.</p>'
+      +'<button class="tb" style="border-color:#c0392b;color:#c0392b;" data-action="clearall">Alle Daten loeschen</button></div>';
+    return;
+  }
+
+  if(!cfg){c.innerHTML='<div style="padding:20px;color:#444;">Seite nicht gefunden.</div>';return;}
+
+  var notice=name==='zugaenge'?'<div class="ntc">&#128272; Sensible Daten - nur fuer Bevollmaechtigte.</div>':'';
+  var sbar='<div class="sbar"><span class="sico">&#128269;</span><input type="text" placeholder="Suchen..." id="sb" oninput="doSearch(this.value)"></div>';
+  c.innerHTML=ph+notice+sbar+'<div id="clist">'+renderCards(name,'')+'</div>';
+}
+
+function doSearch(v){
+  var el=document.getElementById('clist');
+  if(el)el.innerHTML=renderCards(curPage,v);
+}
+
+// ── MODAL ─────────────────────────────────────────────────────────────────────
+function openAdd(sec){
+  var cfg=F[sec];if(!cfg)return;
+  curSec=sec;editId=null;
+  document.getElementById('mtitle').textContent=cfg.t.toUpperCase()+' ERFASSEN';
+  document.getElementById('mbody').innerHTML=buildForm(cfg.f,{});
+  document.getElementById('ov').classList.add('show');
+}
+function openEdit(sec,id){
+  var cfg=F[sec];if(!cfg)return;
+  curSec=sec;editId=id;
+  var items=db[sec]||[];
+  var item=null;for(var i=0;i<items.length;i++){if(items[i].id===id){item=items[i];break;}}
+  document.getElementById('mtitle').textContent=cfg.t.toUpperCase()+' BEARBEITEN';
+  document.getElementById('mbody').innerHTML=buildForm(cfg.f,item||{});
+  document.getElementById('ov').classList.add('show');
+}
+function closeModal(){
+  document.getElementById('ov').classList.remove('show');
+  curSec=null;editId=null;
+}
+function buildForm(fields,data){
+  var out='';
+  for(var i=0;i<fields.length;i++){
+    var f=fields[i];
+    var val=data[f.k]||'';
+    var inp;
+    if(f.tp==='ta'){
+      inp='<textarea id="fi'+i+'" rows="3">'+h(val)+'</textarea>';
+    } else if(f.tp==='sel'){
+      var opts='<option value="">-- Bitte waehlen --</option>';
+      for(var j=0;j<f.o.length;j++){opts+='<option'+(f.o[j]===val?' selected':'')+'>'+h(f.o[j])+'</option>';}
+      inp='<select id="fi'+i+'">'+opts+'</select>';
+    } else if(f.tp==='date'){
+      inp='<input type="date" id="fi'+i+'" value="'+h(val)+'">';
+    } else {
+      inp='<input type="text" id="fi'+i+'" value="'+h(val)+'" placeholder="'+h(f.l)+'">';
+    }
+    out+='<div class="fr"><label class="fl">'+h(f.l)+(f.r?' *':'')+'</label>'+inp+'</div>';
+  }
+  return out;
+}
+function saveEntry(){
+  if(!curSec)return;
+  var cfg=F[curSec];
+  var data={id:editId||String(Date.now()),_ts:new Date().toISOString()};
+  var ok=true;
+  for(var i=0;i<cfg.f.length;i++){
+    var f=cfg.f[i];
+    var el=document.getElementById('fi'+i);
+    if(el){
+      data[f.k]=el.value.trim();
+      if(f.r&&!data[f.k]){el.style.borderColor='#c0392b';ok=false;}
+      else{el.style.borderColor='';}
+    }
+  }
+  if(!ok)return;
+  if(!db[curSec])db[curSec]=[];
+  if(editId){
+    for(var i=0;i<db[curSec].length;i++){if(db[curSec][i].id===editId){db[curSec][i]=data;break;}}
+  } else {
+    db[curSec].push(data);
+  }
+  dbSave();closeModal();goPage(curSec);
+}
+function delEntry(sec,id){
+  if(!confirm('Eintrag loeschen?'))return;
+  var arr=db[sec]||[];
+  db[sec]=arr.filter(function(x){return x.id!==id;});
+  dbSave();goPage(sec);
+}
+
+function saveSetting(){
+  var g=function(id){var e=document.getElementById(id);return e?e.value:'';};
+  if(!db.settings)db.settings={};
+  db.settings.firma=g('s0');db.settings.inhaber=g('s1');db.settings.adresse=g('s2');
+  db.settings.telefon=g('s3');db.settings.email=g('s4');db.settings.anweisung=g('s5');
+  dbSave();
+}
+
+function exportData(){
+  var json=JSON.stringify(db,null,2);
+  try{
+    var b=new Blob([json],{type:'application/json'});
+    var u=URL.createObjectURL(b);
+    var a=document.createElement('a');
+    a.href=u;a.download='betriebshandbuch_'+new Date().toISOString().slice(0,10)+'.json';
+    document.body.appendChild(a);a.click();document.body.removeChild(a);
+    setTimeout(function(){URL.revokeObjectURL(u);},2000);
+  } catch(e){
+    // iOS fallback
+    try{
+      var w=window.open('','_blank');
+      if(w){
+        w.document.write('<pre style="background:#111;color:#eee;padding:20px;font-size:11px;word-wrap:break-word;">'+json.replace(/</g,'&lt;')+'</pre>');
+        w.document.title='Export - bitte Text kopieren';
+        w.document.close();
+      }
+    }catch(e2){alert('Export: Bitte manuell sichern via Import/Export.');}
+  }
+}
+
+function importData(ev){
+  var file=ev.target.files[0];if(!file)return;
+  var r=new FileReader();
+  r.onload=function(e){
+    try{
+      var imp=JSON.parse(e.target.result);
+      if(confirm('Aktuelle Daten ueberschreiben?')){
+        for(var k in imp){if(imp.hasOwnProperty(k))db[k]=imp[k];}
+        dbSave();goPage('dashboard');alert('Import erfolgreich!');
+      }
+    }catch(err){alert('Fehler: '+err.message);}
+  };
+  r.readAsText(file);ev.target.value='';
+}
+
+function clearAll(){
+  if(confirm('Wirklich alle Daten loeschen?')){
+    if(confirm('Nicht rueckgaengig! Wirklich?')){
+      lsDel('bh');
+      db={settings:{},fahrzeuge:[],auftraege:[],inventar:[],kunden:[],lieferanten:[],finanzen:[],vertraege:[],versicherungen:[],zugaenge:[],kontakte:[],rechtliches:[],notizen:[]};
+      goPage('dashboard');alert('Alle Daten geloescht.');
+    }
+  }
+}
+
+// ── EVENT DELEGATION ──────────────────────────────────────────────────────────
+document.getElementById('btnExport').addEventListener('click',exportData);
+document.getElementById('btnImport').addEventListener('click',function(){document.getElementById('ifile').click();});
+document.getElementById('ifile').addEventListener('change',importData);
+document.getElementById('btnNeu').addEventListener('click',function(){openAdd(curPage);});
+document.getElementById('btnSave').addEventListener('click',saveEntry);
+document.getElementById('btnCancel').addEventListener('click',closeModal);
+
+// Nav buttons
+var nbs=document.querySelectorAll('.nb');
+for(var i=0;i<nbs.length;i++){
+  nbs[i].addEventListener('click',function(){goPage(this.getAttribute('data-p'));});
+}
+
+// Modal backdrop
+document.getElementById('ov').addEventListener('click',function(e){if(e.target===this)closeModal();});
+
+// Content delegation (for dynamically added buttons)
+document.getElementById('content').addEventListener('click',function(e){
+  var el=e.target;
+  while(el&&el!==this){
+    var action=el.getAttribute('data-action');
+    if(action){
+      var sec=el.getAttribute('data-sec');
+      var id=el.getAttribute('data-id');
+      if(action==='edit')openEdit(sec,id);
+      else if(action==='del')delEntry(sec,id);
+      else if(action==='add')openAdd(sec);
+      else if(action==='clearall')clearAll();
+      return;
+    }
+    el=el.parentNode;
+  }
+});
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+dbLoad();
+goPage('dashboard');
+
+})();
+</script>
+</body>
+</html>
